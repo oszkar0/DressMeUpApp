@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name="USERS")
 public class User {
@@ -26,4 +28,9 @@ public class User {
     @Getter
     @Column(name = "PASSWORD", length = 80) //length of BCrypt encoded password
     private String password;
+
+    @Setter
+    @Getter
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts;
 }
