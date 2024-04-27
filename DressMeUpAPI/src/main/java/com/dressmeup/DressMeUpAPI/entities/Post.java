@@ -44,6 +44,6 @@ public class Post {
 
     @Getter
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Rate> rates;
 }

@@ -31,6 +31,6 @@ public class User {
 
     @Setter
     @Getter
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
 }

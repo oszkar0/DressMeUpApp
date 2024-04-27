@@ -26,5 +26,6 @@ public class Rate {
     @Getter
     @Setter
     @ManyToOne
+    @JoinColumn(name = "POST_ID")
     private Post post;
 }
