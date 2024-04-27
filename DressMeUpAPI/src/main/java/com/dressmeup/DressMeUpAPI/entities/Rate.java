@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "RATES")
 public class Rate {
 
     @Getter
@@ -14,9 +15,9 @@ public class Rate {
 
     @Getter
     @Setter
-    @Column(name = "LIKE", nullable = false)
+    @Column(name = "POSITIVE_RATE", nullable = false)
     //if true - like, if false - dislike
-    private Boolean like;
+    private Boolean positiveRate;
 
     @Getter
     @Setter
