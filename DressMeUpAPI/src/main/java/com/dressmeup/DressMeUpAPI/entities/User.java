@@ -33,4 +33,9 @@ public class User {
     @Getter
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Post> posts;
+
+    @Setter
+    @Getter
+    @Column(name = "PROFILE_PICTURE")
+    private byte[] profilePicture;
 }
