@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -38,4 +40,12 @@ public class User {
     @Getter
     @Column(name = "PROFILE_PICTURE")
     private byte[] profilePicture;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "USER_ROLES",
+            joinColumns = @JoinColumn(name = "USERS_id"),
+            inverseJoinColumns = @JoinColumn(name = "ROLES_id")
+    )
+    private Collection<Role> roles = new ArrayList<>();
 }
