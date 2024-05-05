@@ -23,8 +23,8 @@ public class User {
 
     @Setter
     @Getter
-    @Column(name = "NICKNAME", length = 20)
-    private String nickname;
+    @Column(name = "USERNAME", length = 20)
+    private String username;
 
     @Setter
     @Getter
@@ -41,6 +41,8 @@ public class User {
     @Column(name = "PROFILE_PICTURE")
     private byte[] profilePicture;
 
+    @Setter
+    @Getter
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "USER_ROLES",
