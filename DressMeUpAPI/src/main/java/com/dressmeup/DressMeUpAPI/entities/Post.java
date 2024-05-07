@@ -62,4 +62,6 @@ public class Post {
         this.postPicture = picture;
         this.user = user;
     }
+
+    public Post(){}
 }

@@ -73,6 +73,16 @@ public class PostService {
         return postRepository.findByUserId(userId);
     }
 
+    public Post getPostById(Long id){
+        Optional<Post> post = postRepository.findById(id);
+
+        if(post.isPresent()) {
+            return post.get();
+        }
+
+        return null;
+    }
+
     public Date convertToDate(LocalDateTime dateToConvert) {
         return java.sql.Timestamp.valueOf(dateToConvert);
     }

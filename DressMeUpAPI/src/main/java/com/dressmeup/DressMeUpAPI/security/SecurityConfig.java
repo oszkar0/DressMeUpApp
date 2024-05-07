@@ -42,13 +42,16 @@ public class SecurityConfig {
 
         http = http
                 .exceptionHandling()
-                .authenticationEntryPoint(
-                        ((request, response, authException) -> {
-                            System.out.println("Unauthorized request");
-                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
-                        })
-                )
+                .authenticationEntryPoint((request, response, authException) -> {
+                    System.out.println("Unauthorized request");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
+                })
+                .accessDeniedHandler((request, response, ex) -> {
+                    System.out.println("Unauthorized request");
+                    response.sendError(HttpServletResponse.SC_FORBIDDEN, ex.getMessage());
+                })
                 .and();
+
 
         http.authorizeRequests()
                 .requestMatchers("/posts/**").authenticated()
