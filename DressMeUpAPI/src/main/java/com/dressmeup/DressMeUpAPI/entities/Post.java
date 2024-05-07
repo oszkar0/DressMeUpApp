@@ -46,4 +46,20 @@ public class Post {
     @Setter
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Rate> rates;
+
+    @Setter
+    @Getter
+    @Column(name = "POST_PICTURE")
+    private byte[] postPicture;
+
+
+    public Post(String text, Date date, Double latitude, Double longitude, byte[] picture, User user)
+    {
+        this.text = text;
+        this.date = date;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.postPicture = picture;
+        this.user = user;
+    }
 }

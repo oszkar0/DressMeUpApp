@@ -51,6 +51,7 @@ public class SecurityConfig {
                 .and();
 
         http.authorizeRequests()
+                .requestMatchers("/posts/**").authenticated()
                 .requestMatchers("/users/**").authenticated()
                 .requestMatchers("/auth/**").permitAll();
 
