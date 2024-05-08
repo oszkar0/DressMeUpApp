@@ -21,14 +21,14 @@ public class PostController {
     private UserService userService;
 
     @PostMapping
-    public void CreatePost(@RequestBody PostDto dto) {
+    public void createPost(@RequestBody PostDto dto) {
         User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         postService.createPost(dto, user.getId());
     }
 
     @PutMapping
-    public void UpdatePost(@RequestBody PostDto dto){
+    public void updatePost(@RequestBody PostDto dto){
         User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Post post = postService.getPostById(dto.id());
 
@@ -37,5 +37,19 @@ public class PostController {
         }
 
         postService.updatePost(dto, user);
+    }
+
+    @DeleteMapping
+    public void deletePost(@RequestParam("id") String postId){
+        Long id = Long.parseLong(postId);
+        User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Post post = postService.getPostById(id);
+
+
+        if(!user.getId().equals(post.getUser().getId())) {
+            throw new AccessDeniedException("Unauthorized access");
+        }
+
+        postService.deletePost(id);
     }
 }
