@@ -29,4 +29,20 @@ public class Rate {
     @ManyToOne
     @JoinColumn(name = "POST_ID")
     private Post post;
+
+    @Getter
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    public Rate() {
+    }
+
+    public Rate(Boolean positiveRate, String comment, Post post, User user) {
+        this.positiveRate = positiveRate;
+        this.comment = comment;
+        this.post = post;
+        this.user = user;
+    }
 }

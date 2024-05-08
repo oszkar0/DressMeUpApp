@@ -2,10 +2,13 @@ package com.dressmeup.DressMeUpAPI.controllers;
 
 import com.dressmeup.DressMeUpAPI.entities.Post;
 import com.dressmeup.DressMeUpAPI.entities.PostDto;
+import com.dressmeup.DressMeUpAPI.entities.RateDto;
 import com.dressmeup.DressMeUpAPI.entities.User;
 import com.dressmeup.DressMeUpAPI.services.PostService;
+import com.dressmeup.DressMeUpAPI.services.RateService;
 import com.dressmeup.DressMeUpAPI.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,6 +22,9 @@ public class PostController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RateService rateService;
 
     @PostMapping
     public void createPost(@RequestBody PostDto dto) {
@@ -52,4 +58,19 @@ public class PostController {
 
         postService.deletePost(id);
     }
+
+    @PostMapping("/rates")
+    public ResponseEntity<String> createRate(@RequestBody RateDto rateDto){
+        User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        if(rateService.rateExists(user.getId(), rateDto.postId())) {
+            return ResponseEntity.badRequest().body("Rate for that post and user already exists");
+        }
+
+        rateService.createRate(rateDto, user.getId());
+
+        return ResponseEntity.ok().body("OK");
+    }
+
+    //make endpoint for checking if rate from user under specific posts exists
 }
