@@ -1,6 +1,7 @@
 package com.dressmeup.DressMeUpAPI.controllers;
 
 import com.dressmeup.DressMeUpAPI.entities.*;
+import com.dressmeup.DressMeUpAPI.repositories.RateRepository;
 import com.dressmeup.DressMeUpAPI.services.PostService;
 import com.dressmeup.DressMeUpAPI.services.RateService;
 import com.dressmeup.DressMeUpAPI.services.UserService;
@@ -10,6 +11,9 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/posts")
@@ -92,5 +96,26 @@ public class PostController {
         rateService.deleteRateById(rateIdLong);
     }
 
+    @GetMapping("/rates")
+    public ResponseEntity<List<RateResponse>> getPostRates(@RequestParam("postId") String postId) {
+        Post post = postService.getPostById(Long.parseLong(postId));
+
+        if(post == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        List<Rate> rates = rateService.getRatesByPostId(post.getId());
+
+        List<RateResponse> rateResponses =
+                rates
+                        .stream()
+                        .map(r -> {return new RateResponse(r.getId(), r.getPositiveRate(), r.getComment(), r.getUser().getId(), r.getUser().getUsername());})
+                        .toList();
+
+
+        return ResponseEntity.ok().body(rateResponses);
+    }
+
     public static record RateExistsResponse(Boolean rateExists){}
+    public static record RateResponse(Long rateId, Boolean positive, String comment, Long userId, String username){}
 }

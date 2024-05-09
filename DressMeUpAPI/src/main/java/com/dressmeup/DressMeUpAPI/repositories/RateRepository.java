@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface RateRepository extends JpaRepository<Rate, Long> {
     List<Rate> findByUserIdAndPostId(Long userid, Long postId);
+    List<Rate> findByPostId(Long id);
 }

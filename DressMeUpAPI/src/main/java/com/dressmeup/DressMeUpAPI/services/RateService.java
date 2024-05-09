@@ -63,4 +63,8 @@ public class RateService {
     public void deleteRateById(Long id){
         rateRepository.deleteById(id);
     }
+
+    public List<Rate> getRatesByPostId(Long id){
+        return rateRepository.findByPostId(id);
+    }
 }
