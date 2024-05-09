@@ -1,9 +1,6 @@
 package com.dressmeup.DressMeUpAPI.controllers;
 
-import com.dressmeup.DressMeUpAPI.entities.Post;
-import com.dressmeup.DressMeUpAPI.entities.PostDto;
-import com.dressmeup.DressMeUpAPI.entities.RateDto;
-import com.dressmeup.DressMeUpAPI.entities.User;
+import com.dressmeup.DressMeUpAPI.entities.*;
 import com.dressmeup.DressMeUpAPI.services.PostService;
 import com.dressmeup.DressMeUpAPI.services.RateService;
 import com.dressmeup.DressMeUpAPI.services.UserService;
@@ -71,7 +68,7 @@ public class PostController {
 
         return ResponseEntity.ok().body("OK");
     }
-    
+
 
     @GetMapping("/rates/rate-exists")
     public ResponseEntity<RateExistsResponse> checkRateExists(@RequestParam("postId") String postId) {
@@ -80,6 +77,19 @@ public class PostController {
         Boolean rateExists = rateService.rateExists(user.getId(), Long.parseLong(postId));
 
         return ResponseEntity.ok(new RateExistsResponse(rateExists));
+    }
+
+    @DeleteMapping("/rates")
+    public void deleteRate(@RequestParam("rateId") String rateId) {
+        User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Long rateIdLong = Long.parseLong(rateId);
+        Rate rate = rateService.getRateById(rateIdLong);
+
+        if(rate == null || !user.getId().equals(rate.getUser().getId())) {
+            throw new AccessDeniedException("Access denied");
+        }
+
+        rateService.deleteRateById(rateIdLong);
     }
 
     public static record RateExistsResponse(Boolean rateExists){}

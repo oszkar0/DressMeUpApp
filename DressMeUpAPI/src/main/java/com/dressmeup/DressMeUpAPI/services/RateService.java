@@ -49,4 +49,18 @@ public class RateService {
         List<Rate> rates = getRatesByUserIdAndPostId(userId, postId);
         return !(rates == null || rates.isEmpty());
     }
+
+    public Rate getRateById(Long id){
+        Optional<Rate> rate = rateRepository.findById(id);
+
+        if(rate.isPresent()) {
+            return rate.get();
+        }
+
+        return null;
+    }
+
+    public void deleteRateById(Long id){
+        rateRepository.deleteById(id);
+    }
 }
