@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -44,6 +45,21 @@ public class PostController {
         }
 
         postService.updatePost(dto, user);
+    }
+
+    @GetMapping
+    public ResponseEntity<PostResponse> getPost(@RequestParam("postId") String postId) {
+        Post post = postService.getPostById(Long.parseLong(postId));
+
+        if(post == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        PostResponse postResponse = new PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
+                post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
+                post.getDate());
+
+        return ResponseEntity.ok().body(postResponse);
     }
 
     @DeleteMapping
@@ -116,6 +132,8 @@ public class PostController {
         return ResponseEntity.ok().body(rateResponses);
     }
 
-    public static record RateExistsResponse(Boolean rateExists){}
-    public static record RateResponse(Long rateId, Boolean positive, String comment, Long userId, String username){}
+    public record RateExistsResponse(Boolean rateExists){}
+    public record RateResponse(Long rateId, Boolean positive, String comment, Long userId, String username){}
+    public record PostResponse(Long postId, Long userId, String username, byte[] userProfilePicture, String text,
+                               byte[] postPicture, double longitude, double latitude, Date date){}
 }
