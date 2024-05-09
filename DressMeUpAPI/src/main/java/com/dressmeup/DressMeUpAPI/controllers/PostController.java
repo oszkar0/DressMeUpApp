@@ -71,6 +71,16 @@ public class PostController {
 
         return ResponseEntity.ok().body("OK");
     }
+    
 
-    //make endpoint for checking if rate from user under specific posts exists
+    @GetMapping("/rates/rate-exists")
+    public ResponseEntity<RateExistsResponse> checkRateExists(@RequestParam("postId") String postId) {
+        User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        Boolean rateExists = rateService.rateExists(user.getId(), Long.parseLong(postId));
+
+        return ResponseEntity.ok(new RateExistsResponse(rateExists));
+    }
+
+    public static record RateExistsResponse(Boolean rateExists){}
 }

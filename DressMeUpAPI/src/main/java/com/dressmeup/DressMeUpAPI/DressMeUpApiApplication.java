@@ -25,7 +25,7 @@ public class DressMeUpApiApplication {
 	@Bean
 	CommandLineRunner run(UserService userService, RoleService roleService) {
 		return args -> {
-			Role roleUser = roleService.save(new Role(Role.ROLE_USER));
+			//Role roleUser = roleService.save(new Role(Role.ROLE_USER));
 		};
 	}
 
