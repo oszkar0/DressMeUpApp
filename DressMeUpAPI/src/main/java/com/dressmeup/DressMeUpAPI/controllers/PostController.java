@@ -62,6 +62,29 @@ public class PostController {
         return ResponseEntity.ok().body(postResponse);
     }
 
+    @GetMapping("/inRadius")
+    public ResponseEntity<List<PostResponse>> getPostsByRadius(@RequestParam("latitude") String latitude,
+                                                               @RequestParam("longitude") String longitude,
+                                                               @RequestParam("radius") String radius)
+    {
+        Double lat = Double.parseDouble(latitude);
+        Double lon = Double.parseDouble(longitude);
+        Double rad = Double.parseDouble(radius);
+        var posts = postService.getPosts(lon, lat, rad).stream().map(post -> new PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
+                post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
+                post.getDate())).toList();
+        return ResponseEntity.ok().body(posts);
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<PostResponse>> getPostsByUserId(@RequestParam("userId") String userId)
+    {
+        var posts = postService.getPosts(Long.parseLong(userId)).stream().map(post -> new PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
+                post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
+                post.getDate())).toList();
+        return ResponseEntity.ok().body(posts);
+    }
+
     @DeleteMapping
     public void deletePost(@RequestParam("id") String postId){
         Long id = Long.parseLong(postId);

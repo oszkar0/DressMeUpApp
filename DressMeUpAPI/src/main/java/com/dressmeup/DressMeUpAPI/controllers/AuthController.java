@@ -73,7 +73,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody RegistrationDto request) {
-        return userService.create(request);
+    public ResponseEntity<User> register(@RequestBody RegistrationDto request) {
+        var userName = userService.getByUsername(request.username());
+        var userEmail = userService.getByEmail(request.email());
+
+        if(userName != null || userEmail != null)
+            return ResponseEntity.badRequest().body(null);
+
+        return ResponseEntity.ok().body(userService.create(request));
     }
 }

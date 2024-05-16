@@ -65,7 +65,8 @@ public class PostService {
 
     public List<Post> getPosts(double longitude, double latitude, double radius)
     {
-        return null;
+        var posts = postRepository.findAll();
+        return posts.stream().filter(a -> (distance(latitude, longitude, a.getLatitude(), a.getLongitude()) <= radius)).toList();
     }
 
     public List<Post> getPosts(Long userId)
@@ -85,5 +86,21 @@ public class PostService {
 
     public Date convertToDate(LocalDateTime dateToConvert) {
         return java.sql.Timestamp.valueOf(dateToConvert);
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+            return 0;
+        }
+        else {
+            double theta = lon1 - lon2;
+            double dist = Math.sin(Math.toRadians(lat1)) * Math.sin(Math.toRadians(lat2)) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.cos(Math.toRadians(theta));
+            dist = Math.acos(dist);
+            dist = Math.toDegrees(dist);
+            dist = dist * 60 * 1.1515;
+            dist = dist * 1.609344;
+
+            return dist;
+        }
     }
 }
