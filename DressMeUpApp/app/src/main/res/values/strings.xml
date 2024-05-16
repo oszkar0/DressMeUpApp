@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">DressMeUpApp</string>
+    <string name="app_name" translatable="false">DressMeUpApp</string>
+    <string name="welcome_app">Welcome to the DressMeUp!</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="login_button">Login</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
 </resources>
