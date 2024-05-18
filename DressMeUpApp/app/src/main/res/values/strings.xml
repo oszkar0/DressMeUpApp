@@ -7,4 +7,10 @@
     <string name="username">Username</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="email">Email</string>
+    <string name="signup_info_success">Success</string>
+    <string name="signup_info_failure">Failure</string>
+    <string name="signup_info_failure_email_details">"This email is already in use."</string>
+    <string name="signup_info_failure_details">"Registration failed. Please try again."</string>
+    <string name="signup_info_success_details">"Registration successful!"</string>
+    <string name="login_failure">Login failed. Check your internet connection or password and login.</string>
 </resources>

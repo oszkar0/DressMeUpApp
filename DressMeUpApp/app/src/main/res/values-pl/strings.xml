@@ -6,4 +6,11 @@
     <string name="username">Nazwa użytkownika</string>
     <string name="signup_button">Zarejestruj się</string>
     <string name="confirm_password">Potwierdź hasło</string>
+    <string name="email">Email</string>
+    <string name="signup_info_success">Sukces</string>
+    <string name="signup_info_failure">Porażka</string>
+    <string name="signup_info_success_details">Rejestracja udana!</string>
+    <string name="signup_info_failure_email_details">Ten email jest już używany.</string>
+    <string name="signup_info_failure_details">Rejestracja nieudana. Spróbuj ponownie.</string>
+    <string name="login_failure">Logowanie nieudane. Sprawdź połączenie z internetem lub login oraz hasło.</string>
 </resources>

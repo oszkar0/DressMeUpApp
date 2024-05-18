@@ -122,12 +122,14 @@ public class SignUpPage extends AppCompatActivity {
             public void onResponse(Call<Status> call, Response<Status> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     if ("SUCCESS".equals(response.body().getStatus())) {
-                        showAlertDialog("Success", "Registration successful!", true);
+                        showAlertDialog(getResources().getString(R.string.signup_info_success),
+                                getResources().getString(R.string.signup_info_success_details), true);
                     } else {
-                        showAlertDialog("Failure", "This email is already in use.");
+                        showAlertDialog(getResources().getString(R.string.signup_info_failure),
+                                getResources().getString(R.string.signup_info_failure_email_details));
                     }
                 } else {
-                    showAlertDialog("Failure", "Registration failed. Please try again.");
+                    showAlertDialog(getResources().getString(R.string.signup_info_failure), getResources().getString(R.string.signup_info_failure_details));
                 }
             }
 
