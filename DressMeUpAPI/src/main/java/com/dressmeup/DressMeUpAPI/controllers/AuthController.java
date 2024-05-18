@@ -2,6 +2,7 @@ package com.dressmeup.DressMeUpAPI.controllers;
 
 import com.dressmeup.DressMeUpAPI.entities.LoginDto;
 import com.dressmeup.DressMeUpAPI.entities.RegistrationDto;
+import com.dressmeup.DressMeUpAPI.entities.Status;
 import com.dressmeup.DressMeUpAPI.entities.User;
 import com.dressmeup.DressMeUpAPI.security.JwtTokenUtil;
 import com.dressmeup.DressMeUpAPI.services.UserService;
@@ -73,13 +74,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegistrationDto request) {
+    public ResponseEntity<Status> register(@RequestBody RegistrationDto request) {
         var userName = userService.getByUsername(request.username());
         var userEmail = userService.getByEmail(request.email());
 
         if(userName != null || userEmail != null)
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(Status.failure());
 
-        return ResponseEntity.ok().body(userService.create(request));
+        User user = userService.create(request);
+
+        return ResponseEntity.ok().body(Status.success());
     }
 }
