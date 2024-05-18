@@ -1,6 +1,8 @@
 package com.dressmeupapp;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,5 +22,11 @@ public class SignUpPage extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+    public void goToWelcomePage(View view) {
+        Intent intent = new Intent(this, WelcomePage.class);
+        startActivity(intent);
+        finish();
     }
 }
