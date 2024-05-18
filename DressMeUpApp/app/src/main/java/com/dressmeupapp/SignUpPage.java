@@ -115,7 +115,7 @@ public class SignUpPage extends AppCompatActivity {
             return;
         }
 
-        RegisterDto registerDto = new RegisterDto(username, email, password);
+        RegisterDto registerDto = new RegisterDto(username, password, email);
         ApiService api = RetrofitClient.getClient(this).create(ApiService.class);
         api.registerUser(registerDto).enqueue(new Callback<Status>() {
             @Override
