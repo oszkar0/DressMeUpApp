@@ -17,5 +17,4 @@ public interface ApiService {
 
     @POST(Urls.LOGIN)
     Call<Token> loginUser(@Body LoginDto loginDto);
-
 }
