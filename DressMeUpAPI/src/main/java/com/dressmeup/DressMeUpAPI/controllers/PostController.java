@@ -70,8 +70,8 @@ public class PostController {
         Double lat = Double.parseDouble(latitude);
         Double lon = Double.parseDouble(longitude);
         Double rad = Double.parseDouble(radius);
-        var posts = postService.getPosts(lon, lat, rad).stream().map(post -> new PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
-                post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
+        var posts = postService.getPosts(lon, lat, rad).stream().map(post -> new PostResponse(post.getId(), null, post.getUser().getUsername(),null,
+                post.getText(), null, post.getLongitude(), post.getLatitude(),
                 post.getDate())).toList();
         return ResponseEntity.ok().body(posts);
     }

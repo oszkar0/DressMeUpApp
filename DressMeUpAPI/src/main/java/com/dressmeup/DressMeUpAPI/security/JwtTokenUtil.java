@@ -28,7 +28,7 @@ public class JwtTokenUtil {
                 .withSubject(String.format("%s,%s", user.getId(), user.getUsername()))
                 .withIssuer(jwtIssuer)
                 .withClaim("roles", authorities)
-                .withExpiresAt(new Date(System.currentTimeMillis() + 5 * 60 * 1000))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 10 * 1000))
                 .sign(algorithm);
     }
 

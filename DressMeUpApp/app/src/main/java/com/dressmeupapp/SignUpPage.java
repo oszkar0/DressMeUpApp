@@ -27,6 +27,7 @@ import com.dressmeupapp.retrofit.entities.RegisterDto;
 import com.dressmeupapp.retrofit.entities.Status;
 import com.dressmeupapp.retrofit.interfaces.ApiService;
 import com.dressmeupapp.retrofit.interfaces.RetrofitClient;
+import com.dressmeupapp.retrofit.interfaces.RetrofitLoginClient;
 import com.dressmeupapp.retrofit.urls.Urls;
 
 import retrofit2.Call;
@@ -116,7 +117,7 @@ public class SignUpPage extends AppCompatActivity {
         }
 
         RegisterDto registerDto = new RegisterDto(username, password, email);
-        ApiService api = RetrofitClient.getClient(this).create(ApiService.class);
+        ApiService api = RetrofitLoginClient.getClient(this).create(ApiService.class);
         api.registerUser(registerDto).enqueue(new Callback<Status>() {
             @Override
             public void onResponse(Call<Status> call, Response<Status> response) {

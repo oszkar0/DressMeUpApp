@@ -20,6 +20,7 @@ import com.dressmeupapp.retrofit.entities.LoginDto;
 import com.dressmeupapp.retrofit.entities.Token;
 import com.dressmeupapp.retrofit.interfaces.ApiService;
 import com.dressmeupapp.retrofit.interfaces.RetrofitClient;
+import com.dressmeupapp.retrofit.interfaces.RetrofitLoginClient;
 import com.dressmeupapp.token.TokenManager;
 
 import retrofit2.Call;
@@ -95,7 +96,7 @@ public class WelcomePage extends AppCompatActivity {
         String password = passwordEditText.getText().toString().trim();
 
         LoginDto loginDto = new LoginDto(username, password);
-        ApiService api = RetrofitClient.getClient(this).create(ApiService.class);
+        ApiService api = RetrofitLoginClient.getClient(this).create(ApiService.class);
 
         api.loginUser(loginDto).enqueue(new Callback<Token>() {
             @Override
@@ -103,8 +104,8 @@ public class WelcomePage extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     Token token = response.body();
                     if(token != null) {
-                        TokenManager.saveAccessToken(token.getAccess_token(), WelcomePage.this);
-                        TokenManager.saveRefreshToken(token.getRefresh_token(), WelcomePage.this);
+                        TokenManager.getInstance().saveAccessToken(token.getAccess_token());
+                        TokenManager.getInstance().saveRefreshToken(token.getRefresh_token());
                     }
                     Intent intent = new Intent(WelcomePage.this, MainPage.class);
                     startActivity(intent);

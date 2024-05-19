@@ -15,6 +15,7 @@ public class Launcher extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TokenManager.initialize(this);
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_launcher);
@@ -24,7 +25,7 @@ public class Launcher extends AppCompatActivity {
             return insets;
         });
 
-        String refreshToken = TokenManager.getRefreshToken(this);
+        String refreshToken = TokenManager.getInstance().getRefreshToken();
         if (refreshToken == null || refreshToken.isEmpty()) {
             Intent intent = new Intent(this, WelcomePage.class);
             startActivity(intent);

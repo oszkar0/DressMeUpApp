@@ -4,27 +4,36 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class TokenManager {
-    public static String getRefreshToken(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("refresh_token", null);
+    private static final String PREF_NAME = "app_prefs";
+    private static final String ACCESS_TOKEN_KEY = "access_token";
+    private static final String REFRESH_TOKEN_KEY = "refresh_token";
+    private static TokenManager tokenManager;
+    private SharedPreferences prefs;
+    public static void initialize(Context context) {
+        tokenManager = new TokenManager();
+        tokenManager.prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
-    public static String getAccessToken(Context context){
-        SharedPreferences sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        return sharedPreferences.getString("refresh_token", null);
+    public static TokenManager getInstance() {
+        return tokenManager;
     }
 
-    public static void saveAccessToken(String token, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("access_token", token);
-        editor.apply();
+    private TokenManager(){
     }
 
-    public static void saveRefreshToken(String token, Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("refresh_token", token);
-        editor.apply();
+    public void saveAccessToken(String token) {
+        prefs.edit().putString(ACCESS_TOKEN_KEY, token).apply();
+    }
+
+    public void saveRefreshToken(String token) {
+        prefs.edit().putString(REFRESH_TOKEN_KEY, token).apply();
+    }
+
+    public String getAccessToken() {
+        return prefs.getString(ACCESS_TOKEN_KEY, null);
+    }
+
+    public String getRefreshToken() {
+        return prefs.getString(REFRESH_TOKEN_KEY, null);
     }
 }

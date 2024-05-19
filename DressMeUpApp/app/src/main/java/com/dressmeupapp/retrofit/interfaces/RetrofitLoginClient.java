@@ -17,7 +17,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+public class RetrofitLoginClient {
 
     private static Retrofit retrofit = null;
 
@@ -47,24 +47,11 @@ public class RetrofitClient {
                         .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustManagerFactory.getTrustManagers()[0])
                         .build();
 
-                ApiService apiService= new Retrofit.Builder()
+                retrofit = new Retrofit.Builder()
                         .baseUrl(Urls.API_URL)
                         .client(okHttpClient)
                         .addConverterFactory(GsonConverterFactory.create())
-                        .build()
-                        .create(ApiService.class);
-
-                OkHttpClient client = new OkHttpClient.Builder()
-                        .sslSocketFactory(sslContext.getSocketFactory(), (X509TrustManager) trustManagerFactory.getTrustManagers()[0])
-                        .addInterceptor(new AuthInterceptor(apiService))
                         .build();
-
-                retrofit = new Retrofit.Builder()
-                        .baseUrl(Urls.API_URL)
-                        .client(client)
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-
 
             } catch (Exception e) {
                 e.printStackTrace();
