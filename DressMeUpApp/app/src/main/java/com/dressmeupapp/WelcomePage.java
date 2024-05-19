@@ -1,5 +1,6 @@
 package com.dressmeupapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.dressmeupapp.retrofit.entities.LoginDto;
 import com.dressmeupapp.retrofit.entities.Token;
 import com.dressmeupapp.retrofit.interfaces.ApiService;
 import com.dressmeupapp.retrofit.interfaces.RetrofitClient;
+import com.dressmeupapp.token.TokenManager;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,12 +103,11 @@ public class WelcomePage extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     Token token = response.body();
                     if(token != null) {
-                        SharedPreferences sharedPreferences = getSharedPreferences("app_prefs", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("access_token", token.getAccess_token());
-                        editor.putString("refresh_token", token.getRefresh_token());
-                        editor.apply();
+                        TokenManager.saveAccessToken(token.getAccess_token(), WelcomePage.this);
+                        TokenManager.saveRefreshToken(token.getRefresh_token(), WelcomePage.this);
                     }
+                    Intent intent = new Intent(WelcomePage.this, MainPage.class);
+                    startActivity(intent);
                 } else {
                     showAlertDialog(getResources().getString(R.string.signup_info_failure),
                             getResources().getString(R.string.login_failure));
