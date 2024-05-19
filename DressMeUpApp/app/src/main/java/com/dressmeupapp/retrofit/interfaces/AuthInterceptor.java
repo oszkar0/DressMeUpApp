@@ -43,7 +43,7 @@ public class AuthInterceptor implements Interceptor {
                                 .build()
                 );
             } else {
-                return response;
+                return response; //TODO: logout
             }
         }
         return response;

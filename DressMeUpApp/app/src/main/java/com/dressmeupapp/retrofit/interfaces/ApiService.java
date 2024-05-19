@@ -6,6 +6,7 @@ import com.dressmeupapp.retrofit.entities.RefreshResponse;
 import com.dressmeupapp.retrofit.entities.RegisterDto;
 import com.dressmeupapp.retrofit.entities.Status;
 import com.dressmeupapp.retrofit.entities.Token;
+import com.dressmeupapp.retrofit.entities.UserResponse;
 import com.dressmeupapp.retrofit.urls.Urls;
 
 import java.util.List;
@@ -33,4 +34,7 @@ public interface ApiService {
             @Query("longitude") String longitude,
             @Query("radius") String radius
     );
+
+    @GET(Urls.CURRENT_USER)
+    Call<UserResponse> getCurrentUser();
 }

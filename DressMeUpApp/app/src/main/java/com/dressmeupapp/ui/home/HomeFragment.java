@@ -124,7 +124,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<Post>> call, Throwable t) {
-
+                System.out.println("dupa");
             }
         });
         swipeRefreshLayout.setRefreshing(false);

@@ -1,9 +1,16 @@
 package com.dressmeupapp;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.dressmeupapp.retrofit.entities.Post;
+import com.dressmeupapp.retrofit.entities.UserResponse;
+import com.dressmeupapp.retrofit.interfaces.ApiService;
+import com.dressmeupapp.retrofit.interfaces.RetrofitClient;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -15,6 +22,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dressmeupapp.databinding.ActivityMainPageBinding;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainPage extends AppCompatActivity {
 
@@ -48,6 +61,31 @@ public class MainPage extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_page);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        NavigationView mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        // NavigationView Header
+        View mHeaderView =  mNavigationView.getHeaderView(0);
+
+
+        ApiService apiService = RetrofitClient.getClient(this).create(ApiService.class);
+        Call<UserResponse> call = apiService.getCurrentUser();
+        call.enqueue(new Callback<UserResponse>() {
+
+            @Override
+            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                ((TextView)mHeaderView.findViewById(R.id.navusername)).setText(response.body().getUsername());
+                if(response.body().getProfilePicture() != null)
+                    ((ImageView)mHeaderView.findViewById(R.id.imageView)).setImageBitmap(BitmapFactory.decodeByteArray(response.body().getProfilePicture(), 0, response.body().getProfilePicture().length));
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                System.out.println("dupa");
+            }
+        });
+
+
     }
 
     @Override

@@ -39,6 +39,21 @@ public class UserController {
         return ResponseEntity.ok().body(userResponse);
     }
 
+    @GetMapping("/currentUser")
+    public ResponseEntity<UserResponse> getCurrentUser()
+    {
+        User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+
+        List<Post> posts = user.getPosts();
+
+        var postResponse = posts.stream().map(post -> new PostController.PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
+                post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
+                post.getDate())).toList();
+        var userResponse = new UserResponse(user.getUsername(), user.getProfilePicture(), postResponse);
+
+        return ResponseEntity.ok().body(userResponse);
+    }
+
     @PutMapping()
     public ResponseEntity<UpdateUserResponse> updateUser(@RequestBody updateUserRequest data)
     {
