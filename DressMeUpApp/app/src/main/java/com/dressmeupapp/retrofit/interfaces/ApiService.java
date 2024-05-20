@@ -6,6 +6,8 @@ import com.dressmeupapp.retrofit.entities.RefreshResponse;
 import com.dressmeupapp.retrofit.entities.RegisterDto;
 import com.dressmeupapp.retrofit.entities.Status;
 import com.dressmeupapp.retrofit.entities.Token;
+import com.dressmeupapp.retrofit.entities.UpdateUserRequest;
+import com.dressmeupapp.retrofit.entities.UpdateUserResponse;
 import com.dressmeupapp.retrofit.entities.UserResponse;
 import com.dressmeupapp.retrofit.urls.Urls;
 
@@ -13,9 +15,11 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface ApiService {
@@ -37,4 +41,10 @@ public interface ApiService {
 
     @GET(Urls.CURRENT_USER)
     Call<UserResponse> getCurrentUser();
+
+    @DELETE(Urls.DELETE_POST)
+    Call<Status> deletePost(@Query("id") String id);
+
+    @PUT(Urls.UPDATE_USER)
+    Call<UpdateUserResponse> updateUser(@Body UpdateUserRequest updateUserRequest);
 }

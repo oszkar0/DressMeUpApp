@@ -1,5 +1,6 @@
 package com.dressmeupapp;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
@@ -100,5 +101,11 @@ public class MainPage extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main_page);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void goToProfile(View view){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
