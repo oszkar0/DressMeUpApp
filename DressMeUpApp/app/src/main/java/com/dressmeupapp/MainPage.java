@@ -3,6 +3,7 @@ package com.dressmeupapp;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
@@ -12,6 +13,8 @@ import com.dressmeupapp.retrofit.entities.Post;
 import com.dressmeupapp.retrofit.entities.UserResponse;
 import com.dressmeupapp.retrofit.interfaces.ApiService;
 import com.dressmeupapp.retrofit.interfaces.RetrofitClient;
+import com.dressmeupapp.token.TokenManager;
+import com.dressmeupapp.ui.gallery.GalleryFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -43,14 +46,6 @@ public class MainPage extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMainPage.toolbar);
-        binding.appBarMainPage.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .setAnchorView(R.id.fab).show();
-            }
-        });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
         // Passing each menu ID as a set of Ids because each
@@ -105,6 +100,20 @@ public class MainPage extends AppCompatActivity {
 
     public void goToProfile(View view){
         Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void addPost(View view) {
+        Intent intent = new Intent(this, AddPostActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public void logOut(MenuItem item) {
+        TokenManager manager = TokenManager.getInstance();
+        manager.logout();
+        Intent intent = new Intent(this, WelcomePage.class);
         startActivity(intent);
         finish();
     }

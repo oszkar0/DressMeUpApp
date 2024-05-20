@@ -2,6 +2,7 @@ package com.dressmeupapp.retrofit.interfaces;
 
 import com.dressmeupapp.retrofit.entities.LoginDto;
 import com.dressmeupapp.retrofit.entities.Post;
+import com.dressmeupapp.retrofit.entities.PostDto;
 import com.dressmeupapp.retrofit.entities.RefreshResponse;
 import com.dressmeupapp.retrofit.entities.RegisterDto;
 import com.dressmeupapp.retrofit.entities.Status;
@@ -38,6 +39,9 @@ public interface ApiService {
             @Query("longitude") String longitude,
             @Query("radius") String radius
     );
+
+    @POST(Urls.CREATE_POST)
+    Call<Status> createPost(@Body PostDto dto);
 
     @GET(Urls.CURRENT_USER)
     Call<UserResponse> getCurrentUser();

@@ -29,6 +29,11 @@ public class TokenManager {
         prefs.edit().putString(REFRESH_TOKEN_KEY, token).apply();
     }
 
+    public void logout()
+    {
+        prefs.edit().remove(REFRESH_TOKEN_KEY).apply();
+        prefs.edit().remove(ACCESS_TOKEN_KEY).apply();
+    }
     public String getAccessToken() {
         return prefs.getString(ACCESS_TOKEN_KEY, null);
     }

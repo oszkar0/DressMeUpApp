@@ -13,4 +13,10 @@
     <string name="signup_info_failure_email_details">Ten email jest już używany.</string>
     <string name="signup_info_failure_details">Rejestracja nieudana. Spróbuj ponownie.</string>
     <string name="login_failure">Logowanie nieudane. Sprawdź połączenie z internetem lub login oraz hasło.</string>
+    <string name="menu_home">Sprawdź, co ubrali inni</string>
+    <string name="action_settings">Wyloguj się</string>
+    <string name="add_post">Dodaj post</string>\
+    <string name="post_content">Zawartość</string>
+    <string name="current_location">Aktualna lokalizacja</string>
+    <string name="create_post_failure_details">Coś poszło nie tak</string>
 </resources>
