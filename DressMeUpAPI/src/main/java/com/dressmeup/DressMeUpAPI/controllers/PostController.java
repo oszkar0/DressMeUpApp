@@ -29,14 +29,15 @@ public class PostController {
     private RateService rateService;
 
     @PostMapping
-    public void createPost(@RequestBody PostDto dto) {
+    public ResponseEntity<Status> createPost(@RequestBody PostDto dto) {
         User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         postService.createPost(dto, user.getId());
+        return ResponseEntity.ok().body(Status.success());
     }
 
     @PutMapping
-    public void updatePost(@RequestBody PostDto dto){
+    public ResponseEntity<Status> updatePost(@RequestBody PostDto dto){
         User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Post post = postService.getPostById(dto.id());
 
@@ -45,6 +46,7 @@ public class PostController {
         }
 
         postService.updatePost(dto, user);
+        return ResponseEntity.ok().body(Status.success());
     }
 
     @GetMapping
@@ -86,7 +88,7 @@ public class PostController {
     }
 
     @DeleteMapping
-    public void deletePost(@RequestParam("id") String postId){
+    public ResponseEntity<Status> deletePost(@RequestParam("id") String postId){
         Long id = Long.parseLong(postId);
         User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Post post = postService.getPostById(id);
@@ -97,6 +99,7 @@ public class PostController {
         }
 
         postService.deletePost(id);
+        return ResponseEntity.ok().body(Status.success());
     }
 
     @PostMapping("/rates")
