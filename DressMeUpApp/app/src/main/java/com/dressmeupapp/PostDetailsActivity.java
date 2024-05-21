@@ -1,6 +1,7 @@
 package com.dressmeupapp;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
@@ -331,6 +332,8 @@ public class PostDetailsActivity extends AppCompatActivity {
                 } else {
                     rateImage.setImageResource(R.drawable.baseline_thumb_down);
                 }
+                rateImage.setImageTintList(
+                        ColorStateList.valueOf(getResources().getColor(com.google.android.material.R.color.design_default_color_primary)));
 
                 if (rate.getUserId().equals(userId)) {
                     deleteCommentButton.setVisibility(View.VISIBLE);

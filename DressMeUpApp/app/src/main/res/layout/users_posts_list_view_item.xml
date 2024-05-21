@@ -7,16 +7,16 @@
 
     <TextView
         android:id="@+id/post_text"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="322dp"
+        android:layout_height="82dp"
         android:layout_weight="1"
         android:textSize="16sp" />
 
     <ImageButton
         android:id="@+id/delete_post_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/baseline_delete_24"
+        android:layout_width="84dp"
+        android:layout_height="82dp"
         android:contentDescription="delete"
-        android:tint="?attr/colorSecondary"/>
+        android:src="@drawable/baseline_delete_24"
+        android:tint="?attr/colorPrimary" />
 </LinearLayout>

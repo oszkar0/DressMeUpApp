@@ -37,7 +37,8 @@
             android:id="@+id/rate_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/tshirt_crew_outline" />
+            app:srcCompat="@drawable/baseline_thumb_down"
+            android:backgroundTint="?attr/colorPrimary"/>
     </LinearLayout>
 
     <ImageButton
