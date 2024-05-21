@@ -34,7 +34,7 @@ public class UserController {
         var postResponse = posts.stream().map(post -> new PostController.PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
                 post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
                 post.getDate())).toList();
-        var userResponse = new UserResponse(user.getUsername(), user.getProfilePicture(), postResponse);
+        var userResponse = new UserResponse(user.getId(), user.getUsername(), user.getProfilePicture(), postResponse);
 
         return ResponseEntity.ok().body(userResponse);
     }
@@ -49,7 +49,7 @@ public class UserController {
         var postResponse = posts.stream().map(post -> new PostController.PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
                 post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
                 post.getDate())).toList();
-        var userResponse = new UserResponse(user.getUsername(), user.getProfilePicture(), postResponse);
+        var userResponse = new UserResponse(user.getId(), user.getUsername(), user.getProfilePicture(), postResponse);
 
         return ResponseEntity.ok().body(userResponse);
     }
@@ -78,6 +78,6 @@ public class UserController {
         return ResponseEntity.badRequest().body(new UpdateUserResponse(false, "wrong password"));
     }
     public record UpdateUserResponse(Boolean result, String ErrorMessage) {}
-    public record UserResponse(String username, byte[] profilePicture, List<PostController.PostResponse> posts) { }
+    public record UserResponse(Long userId, String username, byte[] profilePicture, List<PostController.PostResponse> posts) { }
     public record updateUserRequest(byte[] profilePicture, String oldPassword, String newPassword) {}
 }

@@ -3,6 +3,9 @@ package com.dressmeupapp.retrofit.interfaces;
 import com.dressmeupapp.retrofit.entities.LoginDto;
 import com.dressmeupapp.retrofit.entities.Post;
 import com.dressmeupapp.retrofit.entities.PostDto;
+import com.dressmeupapp.retrofit.entities.RateDto;
+import com.dressmeupapp.retrofit.entities.RateExistsResponse;
+import com.dressmeupapp.retrofit.entities.RateResponse;
 import com.dressmeupapp.retrofit.entities.RefreshResponse;
 import com.dressmeupapp.retrofit.entities.RegisterDto;
 import com.dressmeupapp.retrofit.entities.Status;
@@ -51,4 +54,19 @@ public interface ApiService {
 
     @PUT(Urls.UPDATE_USER)
     Call<UpdateUserResponse> updateUser(@Body UpdateUserRequest updateUserRequest);
+
+    @GET(Urls.GET_POST)
+    Call<Post> getPostById(@Query("postId") String id);
+
+    @GET(Urls.GET_POST_COMMENTS)
+    Call<List<RateResponse>> getPostRates(@Query("postId") String postId);
+
+    @GET(Urls.RATE_EXISTS)
+    Call<RateExistsResponse> rateExists(@Query("postId") String postId);
+
+    @POST(Urls.CREATE_RATE)
+    Call<Status> createRate(@Body RateDto rateDto);
+
+    @DELETE(Urls.DELETE_RATE)
+    Call<Status> deleteRate(@Query("rateId") String rateId);
 }

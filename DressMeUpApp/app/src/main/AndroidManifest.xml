@@ -18,6 +18,9 @@
         android:theme="@style/Theme.DressMeUpApp"
         tools:targetApi="31">
         <activity
+            android:name=".PostDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".AddPostActivity"
             android:exported="false" />
         <activity

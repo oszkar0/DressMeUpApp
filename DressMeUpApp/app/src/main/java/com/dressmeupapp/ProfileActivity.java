@@ -110,7 +110,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setupPostsRecyclerView() {
-        UsersPostsAdapter adapter = new UsersPostsAdapter(posts, this::deletePost);
+        UsersPostsAdapter adapter = new UsersPostsAdapter(posts, this::deletePost, this);
         postsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         postsRecyclerView.setAdapter(adapter);
     }

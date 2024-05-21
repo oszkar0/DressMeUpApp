@@ -63,7 +63,7 @@ public class HomeFragment extends Fragment {
         spinnerRadius = view.findViewById(R.id.spinnerRadius);
 
         // Set up RecyclerView
-        adapter = new PostListAdapter(new ArrayList<>());
+        adapter = new PostListAdapter(getActivity(), new ArrayList<>());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 

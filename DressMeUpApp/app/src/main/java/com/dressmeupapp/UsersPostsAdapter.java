@@ -1,5 +1,7 @@
 package com.dressmeupapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +20,12 @@ public class UsersPostsAdapter extends RecyclerView.Adapter<UsersPostsAdapter.Us
 
     private List<Post> posts;
     private PostDeleteCallback deleteCallback;
+    Context context;
 
-    public UsersPostsAdapter(List<Post> posts, PostDeleteCallback deleteCallback) {
+    public UsersPostsAdapter(List<Post> posts, PostDeleteCallback deleteCallback, Context context) {
         this.posts = posts;
         this.deleteCallback = deleteCallback;
+        this.context = context;
     }
 
     @NonNull
@@ -36,6 +40,16 @@ public class UsersPostsAdapter extends RecyclerView.Adapter<UsersPostsAdapter.Us
         Post post = posts.get(position);
         holder.text.setText(post.getText());
         holder.deleteButton.setOnClickListener(v -> deleteCallback.onDelete(post));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Post clickedPost = posts.get(holder.getAdapterPosition());
+                Long postId = clickedPost.getPostId();
+                Intent intent = new Intent(context, PostDetailsActivity.class);
+                intent.putExtra("post_id", postId);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dressmeupapp.retrofit.entities.Post;
+import com.dressmeupapp.retrofit.entities.Token;
 import com.dressmeupapp.retrofit.entities.UserResponse;
 import com.dressmeupapp.retrofit.interfaces.ApiService;
 import com.dressmeupapp.retrofit.interfaces.RetrofitClient;
@@ -71,6 +72,7 @@ public class MainPage extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
                 ((TextView)mHeaderView.findViewById(R.id.navusername)).setText(response.body().getUsername());
+                TokenManager.getInstance().saveUserId(response.body().getUserId());
                 if(response.body().getProfilePicture() != null)
                     ((ImageView)mHeaderView.findViewById(R.id.imageView)).setImageBitmap(BitmapFactory.decodeByteArray(response.body().getProfilePicture(), 0, response.body().getProfilePicture().length));
             }

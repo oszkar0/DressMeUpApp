@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +27,11 @@ public class PostService {
     {
         Optional<User> user = userRepository.findById(userId);
 
+        ZoneId zid = ZoneId.of("Europe/Paris");
+        LocalDateTime lt = LocalDateTime.now(zid);
+
         if(user.isPresent()) {
-            Post post = new Post(request.text(), convertToDate(LocalDateTime.now()), request.latitude(), request.longitude(), request.picture(), user.get());
+            Post post = new Post(request.text(), convertToDate(lt), request.latitude(), request.longitude(), request.picture(), user.get());
 
             postRepository.save(post);
 

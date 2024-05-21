@@ -103,16 +103,16 @@ public class PostController {
     }
 
     @PostMapping("/rates")
-    public ResponseEntity<String> createRate(@RequestBody RateDto rateDto){
+    public ResponseEntity<Status> createRate(@RequestBody RateDto rateDto){
         User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
 
         if(rateService.rateExists(user.getId(), rateDto.postId())) {
-            return ResponseEntity.badRequest().body("Rate for that post and user already exists");
+            return ResponseEntity.badRequest().body(Status.failure());
         }
 
         rateService.createRate(rateDto, user.getId());
 
-        return ResponseEntity.ok().body("OK");
+        return ResponseEntity.ok().body(Status.success());
     }
 
 
@@ -126,7 +126,7 @@ public class PostController {
     }
 
     @DeleteMapping("/rates")
-    public void deleteRate(@RequestParam("rateId") String rateId) {
+    public ResponseEntity<Status> deleteRate(@RequestParam("rateId") String rateId) {
         User user = userService.getByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Long rateIdLong = Long.parseLong(rateId);
         Rate rate = rateService.getRateById(rateIdLong);
@@ -136,6 +136,7 @@ public class PostController {
         }
 
         rateService.deleteRateById(rateIdLong);
+        return ResponseEntity.ok().body(Status.success());
     }
 
     @GetMapping("/rates")
