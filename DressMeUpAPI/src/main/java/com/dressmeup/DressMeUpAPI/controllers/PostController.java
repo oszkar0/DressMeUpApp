@@ -12,6 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
@@ -72,7 +73,9 @@ public class PostController {
         Double lat = Double.parseDouble(latitude);
         Double lon = Double.parseDouble(longitude);
         Double rad = Double.parseDouble(radius);
-        var posts = postService.getPosts(lon, lat, rad).stream().map(post -> new PostResponse(post.getId(), null, post.getUser().getUsername(),null,
+        var posts = postService.getPosts(lon, lat, rad).stream()
+                .sorted(Comparator.comparing(Post::getDate).reversed())
+                .map(post -> new PostResponse(post.getId(), null, post.getUser().getUsername(),null,
                 post.getText(), null, post.getLongitude(), post.getLatitude(),
                 post.getDate())).toList();
         return ResponseEntity.ok().body(posts);
@@ -81,7 +84,9 @@ public class PostController {
     @GetMapping("/user")
     public ResponseEntity<List<PostResponse>> getPostsByUserId(@RequestParam("userId") String userId)
     {
-        var posts = postService.getPosts(Long.parseLong(userId)).stream().map(post -> new PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
+        var posts = postService.getPosts(Long.parseLong(userId)).stream()
+                .sorted(Comparator.comparing(Post::getDate).reversed())
+                .map(post -> new PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
                 post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
                 post.getDate())).toList();
         return ResponseEntity.ok().body(posts);

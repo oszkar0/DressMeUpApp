@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -46,7 +47,9 @@ public class UserController {
 
         List<Post> posts = user.getPosts();
 
-        var postResponse = posts.stream().map(post -> new PostController.PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
+        var postResponse = posts.stream()
+                .sorted(Comparator.comparing(Post::getDate).reversed())
+                .map(post -> new PostController.PostResponse(post.getId(), post.getUser().getId(), post.getUser().getUsername(),
                 post.getUser().getProfilePicture(), post.getText(), post.getPostPicture(), post.getLongitude(), post.getLatitude(),
                 post.getDate())).toList();
         var userResponse = new UserResponse(user.getId(), user.getUsername(), user.getProfilePicture(), postResponse);
