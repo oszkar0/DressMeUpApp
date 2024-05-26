@@ -15,4 +15,6 @@ public class Urls {
     public static final String CREATE_RATE = "/posts/rates";
     public static final String DELETE_RATE = "/posts/rates";
     public static final String GET_POST = "/posts";
+    public static final String GEO_API_KEY = "6af58c41d3a94226ab05085ddce90cf2";
+    public static final String GEO_BASE_URL = "https://api.geoapify.com/";
 }

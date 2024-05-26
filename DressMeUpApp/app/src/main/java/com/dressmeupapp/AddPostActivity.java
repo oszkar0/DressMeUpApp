@@ -2,6 +2,9 @@ package com.dressmeupapp;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
+import static com.dressmeupapp.retrofit.urls.Urls.GEO_API_KEY;
+import static com.dressmeupapp.retrofit.urls.Urls.GEO_BASE_URL;
+
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
@@ -44,8 +47,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddPostActivity extends AppCompatActivity {
 
-    private static final String BASE_URL = "https://api.geoapify.com/";
-    private static final String API_KEY = "6af58c41d3a94226ab05085ddce90cf2";
     private LocationManager locationManager;
     private Location location;
     private GeoapifyApi geoapifyApi;
@@ -63,7 +64,7 @@ public class AddPostActivity extends AppCompatActivity {
         });
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(GEO_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -166,7 +167,7 @@ public class AddPostActivity extends AppCompatActivity {
     }
 
     private void getLocationDetails(double latitude, double longitude) {
-        Call<GeoapifyResponse> call = geoapifyApi.getLocationDetails(latitude, longitude, API_KEY);
+        Call<GeoapifyResponse> call = geoapifyApi.getLocationDetails(latitude, longitude, GEO_API_KEY);
 
         call.enqueue(new Callback<GeoapifyResponse>() {
             @Override

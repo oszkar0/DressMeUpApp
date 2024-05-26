@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="Sign Up" />
+        app:title="@string/signup_button" />
 
     <TextView
         android:id="@+id/textView4"

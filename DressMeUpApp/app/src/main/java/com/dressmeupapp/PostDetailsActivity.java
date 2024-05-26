@@ -1,5 +1,8 @@
 package com.dressmeupapp;
 
+import static com.dressmeupapp.retrofit.urls.Urls.GEO_API_KEY;
+import static com.dressmeupapp.retrofit.urls.Urls.GEO_BASE_URL;
+
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.BitmapFactory;
@@ -25,6 +28,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.dressmeupapp.retrofit.entities.GeoapifyResponse;
 import com.dressmeupapp.retrofit.entities.Post;
 import com.dressmeupapp.retrofit.entities.RateDto;
 import com.dressmeupapp.retrofit.entities.RateExistsResponse;
@@ -32,6 +37,7 @@ import com.dressmeupapp.retrofit.entities.RateResponse;
 import com.dressmeupapp.retrofit.entities.Status;
 import com.dressmeupapp.retrofit.entities.UserResponse;
 import com.dressmeupapp.retrofit.interfaces.ApiService;
+import com.dressmeupapp.retrofit.interfaces.GeoapifyApi;
 import com.dressmeupapp.retrofit.interfaces.RetrofitClient;
 import com.dressmeupapp.token.TokenManager;
 
@@ -51,7 +57,8 @@ public class PostDetailsActivity extends AppCompatActivity {
     private TextView username;
     private TextView comment;
     private TextView date;
-
+    private TextView place;
+    private GeoapifyApi geoapifyApi;
     private ImageButton deletePostButton;
     private Button addCommentButton;
     private RecyclerView ratesRecyclerView;
@@ -72,6 +79,14 @@ public class PostDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(GEO_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        geoapifyApi = retrofit.create(GeoapifyApi.class);
+
+
         deletePostButton = findViewById(R.id.post_delete_button);
         addCommentButton = findViewById(R.id.add_comment_button);
         ratesRecyclerView = findViewById(R.id.comments);
@@ -79,6 +94,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         username = findViewById(R.id.post_creator);
         comment = findViewById(R.id.post_details_text);
         date = findViewById(R.id.post_date);
+        place = findViewById(R.id.place);
 
         ratesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         ratesAdapter = new RatesAdapter();
@@ -134,6 +150,7 @@ public class PostDetailsActivity extends AppCompatActivity {
                     Post post = response.body();
                     comment.setText(post.getText());
                     username.setText(post.getUsername());
+                    getLocationDetails(post.getLatitude(), post.getLongitude());
 
                     Instant instant = null;
                     ZoneId originalZoneId = null;
@@ -188,6 +205,30 @@ public class PostDetailsActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<RateExistsResponse> call, Throwable t) {
+            }
+        });
+    }
+
+    private void getLocationDetails(double latitude, double longitude) {
+        Call<GeoapifyResponse> call = geoapifyApi.getLocationDetails(latitude, longitude, GEO_API_KEY);
+
+        call.enqueue(new Callback<GeoapifyResponse>() {
+            @Override
+            public void onResponse(Call<GeoapifyResponse> call, Response<GeoapifyResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    GeoapifyResponse geoapifyResponse = response.body();
+                    if (!geoapifyResponse.getFeatures().isEmpty()) {
+                        GeoapifyResponse.Properties properties = geoapifyResponse.getFeatures().get(0).getProperties();
+                        String city = properties.getCity();
+                        String country = properties.getCountry();
+                        place.setText((city == null ? "" : (city + ", ")) + country);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GeoapifyResponse> call, Throwable t) {
+              place.setText("-");
             }
         });
     }
